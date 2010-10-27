@@ -5,6 +5,13 @@
     <body>
         <strong>Wicket Quickstart Archetype Homepage</strong>
         <br/><br/>
-        <span wicket:id="message">message will be here</span>
+        <span wicket:id="message">message will be here</span><br />
+        <span wicket:id="feedback"></span>
+        <form wicket:id="form">
+        Old passowrd: <input type="text" wicket:id="oldpw" /><br />
+        New password: <input type="password" wicket:id="newpw1" /><br />
+        New password (repeat): <input type="password" wicket:id="newpw2" />
+        <input wicket:id="button1" type="submit" value="Change pw">
+        </form>
     </body>
 </html>
