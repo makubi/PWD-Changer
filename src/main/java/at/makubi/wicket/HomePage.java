@@ -8,8 +8,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.CompoundPropertyModel;
 
 /**
  * Homepage
@@ -19,17 +18,8 @@ public class HomePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	
 	// Alt + Shift + S
-	private String password;
-
+	
 	// TODO Add any page properties or variables here
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	/**
 	 * Constructor that is invoked when page is invoked without a session.
@@ -44,12 +34,15 @@ public class HomePage extends WebPage {
 				"If you see this message wicket is properly configured and running"));
 		
 		
-		PropertyModel formModel = new PropertyModel<String>(this, "password");
+		final PasswordObject pwObject = new PasswordObject();
+		//PropertyModel formModel = new PropertyModel<String>(this, "password");
+		CompoundPropertyModel<String> propModel = new CompoundPropertyModel<String>(pwObject);
 		
-		final TextField<String> oldpwField = new TextField<String>("oldpw",formModel);
-		PasswordTextField newpw1Field = new PasswordTextField("newpw1");
-		PasswordTextField newpw2Field = new PasswordTextField("newpw2"); 
-
+		final TextField<String> usernameField = new TextField<String>("username");
+		final PasswordTextField oldpwField = new PasswordTextField("oldpw");
+		final PasswordTextField newpw1Field = new PasswordTextField("newpw1");
+		final PasswordTextField newpw2Field = new PasswordTextField("newpw2"); 
+		setDefaultModel(propModel);
 		
 		Form form = new Form("form") {
 			@Override
@@ -69,17 +62,19 @@ public class HomePage extends WebPage {
 			@Override
 			public void onSubmit() {
 				System.out.println("test1");
-				System.out.println(password);
+				System.out.println(pwObject.getUsername());
+				System.out.println(pwObject.getOldpw());
 			}
 		};
 
+		form.add(usernameField);
 		form.add(oldpwField);
-		//form.add(newpw1Field);
-		//form.add(newpw2Field);
+		form.add(newpw1Field);
+		form.add(newpw2Field);
 		form.add(button1);
 		
-		add(new FeedbackPanel("feedback"));
 		add(form);
+		add(new FeedbackPanel("feedback"));
 
 		// TODO Add your page's components here
 	}
